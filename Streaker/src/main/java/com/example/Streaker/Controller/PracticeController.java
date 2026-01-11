@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class PracticeController {
 
     private final PracticeLoggingService practiceLoggingService;
-
+    /**
+     * Receives practice data from the user, validates it, and saves it.
+     */
     @PostMapping("/log")
-    public ResponseEntity<String> logPractice(
-           @Valid @RequestBody PracticeLogRequest request) {
+    public ResponseEntity<String> logPractice(@Valid @RequestBody PracticeLogRequest request) {
 
+        // Delegate the business logic to the service layer
         practiceLoggingService.logPractice(request);
         return ResponseEntity.ok("Practice logged successfully");
     }

@@ -14,32 +14,28 @@ public class PracticeLoggingService {
     private final PracticeSessionRepository practiceSessionRepository;
     private final SkillRepository skillRepository;
 
-    // Constructor Injection
-    public PracticeLoggingService(
-            PracticeSessionRepository practiceSessionRepository,
+    // Constructor Injection of Repository
+    public PracticeLoggingService(PracticeSessionRepository practiceSessionRepository,
             SkillRepository skillRepository) {
         this.practiceSessionRepository = practiceSessionRepository;
         this.skillRepository = skillRepository;
     }
 
-    /**
-     * Logs a practice session for a given skill.
-     * Enforces all business rules before saving.
-     */
+    //Logs a practice session for a given skill.//
     public void logPractice(PracticeLogRequest request) {
 
-        // 1. Fetch active skill (practice must belong to an active skill)
+        //  Fetch active skill (practice must belong to an active skill)
         Skill skill = skillRepository
-                .findByIdAndActiveTrue(request.getSkillId())
+                .findByIdAndActiveTrue(request.getSkillId()) // Here the Repo checks the skill with database
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Skill not found or inactive"));
+                        new IllegalArgumentException("Skill not found or inactive")); // if the skill not found the give this statement
 
-        // 2. Validate duration (must be meaningful)
+        //  Validate duration (must be meaningful) like it should be more than 0
         if (request.getDurationMinutes() <= 0) {
-            throw new IllegalArgumentException("Duration must be greater than zero");
+            throw new IllegalArgumentException("Duration must be greater than zero"); // if not it gives this message
         }
 
-        // 3. Ensure only one practice per skill per day
+        //  Ensure only one practice per skill per day to avoid the fake logging
         boolean alreadyLogged =
                 practiceSessionRepository.existsBySkillAndPracticeDate(
                         skill, request.getPracticeDate());
@@ -49,7 +45,7 @@ public class PracticeLoggingService {
                     "Practice already logged for this skill today");
         }
 
-        // 4. Convert DTO → Entity
+        //  Convert DTO → Entity
         PracticeSession session = new PracticeSession();
         session.setSkill(skill);
         session.setPracticeDate(request.getPracticeDate());
@@ -57,7 +53,7 @@ public class PracticeLoggingService {
         session.setEffortLevel(request.getEffortLevel());
         session.setNotes(request.getNotes());
 
-        // 5. Persist only after all validations pass
+        //  Persist only after all validations pass
         practiceSessionRepository.save(session);
     }
 }

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 @Repository
 public interface PracticeSessionRepository extends JpaRepository<PracticeSession, Long> {
-    boolean existsBySkillAndPracticeDate(Skill skill, LocalDate practiceDate);
+    boolean existsBySkillAndPracticeDate(Skill skill, LocalDate practiceDate); // As we had written the condition in service layer it checks with databasae
 }

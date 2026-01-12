@@ -1,6 +1,7 @@
 package com.example.Streaker.Service;
 
 import com.example.Streaker.DTO.PracticeLogRequest;
+import com.example.Streaker.DTO.PracticeResponseDTO;
 import com.example.Streaker.Entity.PracticeSession;
 import com.example.Streaker.Entity.Skill;
 import com.example.Streaker.Repo.PracticeSessionRepository;

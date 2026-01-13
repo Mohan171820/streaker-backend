@@ -44,6 +44,8 @@ public class PracticeLoggingService {
         session.setSkill(skill);
         practiceSessionRepository.save(session);
     }
+
+    // Gives the response the user (Response Logic)
     public List<PracticeResponseDTO> getAllSessions() {
         return practiceSessionRepository.findAll().stream()
                 .map(practiceMapper::toResponseDTO)

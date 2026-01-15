@@ -16,7 +16,7 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     // Here we used nullable to make the user not to enter the accurate data and not to keep empty
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
     //Here the category is like ex: java,DSA,JS...etc. whatever you want do
     @Column(nullable = false)
@@ -27,4 +27,7 @@ public class Skill {
     // this is for status of activeness
     @Column(nullable = false)
     private boolean active = true;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = true)
+    private User user;
 }

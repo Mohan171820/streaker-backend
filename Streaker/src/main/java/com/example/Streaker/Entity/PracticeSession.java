@@ -19,8 +19,8 @@ public class PracticeSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     //Here we mentioned skill -but we take skill id from skill entity using @joinColumn annotation and that id will be ued in Db
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "skill_id")
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
     @Column(nullable = false)
     private LocalDate practiceDate;

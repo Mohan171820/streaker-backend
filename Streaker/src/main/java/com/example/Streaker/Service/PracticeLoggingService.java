@@ -4,9 +4,11 @@ import com.example.Streaker.DTO.PracticeLogRequest;
 import com.example.Streaker.DTO.PracticeResponseDTO;
 import com.example.Streaker.Entity.PracticeSession;
 import com.example.Streaker.Entity.Skill;
+import com.example.Streaker.Entity.User;
 import com.example.Streaker.Mapper.PracticeMapper;
 import com.example.Streaker.Repo.PracticeSessionRepository;
 import com.example.Streaker.Repo.SkillRepository;
+import com.example.Streaker.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,7 @@ public class PracticeLoggingService {
     //Logs a practice session for a given skill.//
     public void logPractice(PracticeLogRequest request) {
 
+        User currentUser = SecurityUtil.getCurrentUser();
         //  Fetch active skill (practice must belong to an active skill)
         Skill skill = skillRepository
                 .findByIdAndActiveTrue(request.getSkillId()) // Here the Repo checks the skill with database
@@ -47,7 +50,10 @@ public class PracticeLoggingService {
 
     // Gives the response the user (Response Logic)
     public List<PracticeResponseDTO> getAllSessions() {
-        return practiceSessionRepository.findAll().stream()
+        User currentUser = SecurityUtil.getCurrentUser();
+        return practiceSessionRepository
+                .findAll()
+                .stream()
                 .map(practiceMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }

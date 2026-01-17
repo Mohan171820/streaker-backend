@@ -32,12 +32,17 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**",
+                                "/login/**",              // OAuth2 endpoints
+                                "/oauth2/**"
                         ).authenticated()
                         .anyRequest().authenticated()
                 )
                 //This gives the basic login form to enter the login credentials
                 .formLogin(form -> form
+                        .defaultSuccessUrl("/swagger-ui/index.html", true)
+                )
+                .oauth2Login(oauth -> oauth
                         .defaultSuccessUrl("/swagger-ui/index.html", true)
                 )
                 .sessionManagement(session ->

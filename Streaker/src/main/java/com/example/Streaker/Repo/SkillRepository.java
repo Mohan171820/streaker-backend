@@ -12,6 +12,7 @@ public interface SkillRepository extends JpaRepository<Skill, Long> {
 
     // Finds an active skill by skill ID and user entity
     Optional<Skill> findByIdAndUserAndActiveTrue(Long id, User user);
+    boolean existsByUserIdAndNameIgnoreCaseAndActiveTrue(Long userId, String name);
 
     // Finds an active skill by skill ID and user ID
     Optional<Skill> findByIdAndUserIdAndActiveTrue(Long id, Long userId);

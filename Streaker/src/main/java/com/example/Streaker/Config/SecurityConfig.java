@@ -30,42 +30,37 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                // Disable CSRF for easier API and GraphQL usage
-                .csrf(csrf -> csrf.disable())
-
-                // Configure public and secured endpoints
+                .csrf(csrf -> csrf.ignoringRequestMatchers(
+                        "/api/**",
+                        "/graphql/**"
+                ))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/api/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/login/**",
-                                "/graphiql/**",      // GraphiQL UI
-                                "/graphql/**",       // GraphQL API
-                                "/_graphiql/**",     // Internal GraphiQL assets
+                                "/graphiql/**",
+                                "/graphql/**",
+                                "/_graphiql/**",
                                 "/vendor/**",
                                 "/favicon.ico",
                                 "/oauth2/**"
-                        ).permitAll() // Allow access without authentication
-                        .anyRequest().authenticated() // Secure all other endpoints
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
-
-                // Ignore CSRF protection for GraphQL endpoint
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/graphql/**"))
-
-                // Enable form-based login
                 .formLogin(form -> form
                         .defaultSuccessUrl("/swagger-ui/index.html", true)
                 )
-
-                // Enable OAuth2 login (Google, GitHub, etc.)
                 .oauth2Login(oauth -> oauth
                         .userInfoEndpoint(userInfo -> userInfo
-                                .userService(customOAuth2UserService) // Load and save OAuth2 user
+                                .userService(customOAuth2UserService)
                         )
                         .defaultSuccessUrl("/swagger-ui/index.html", true)
                 )
 
-                // Configure logout behavior
+
+        // Configure logout behavior
                 .logout(logout -> logout
                         .logoutSuccessUrl("/") // Redirect after logout
                         .invalidateHttpSession(true)

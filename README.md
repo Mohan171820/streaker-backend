@@ -82,7 +82,7 @@ Ensures reliable & safe input handling
 
 ---
 ## 📁 Project Structure
-Streaker/
+```Streaker/
 │
 ├── .idea/
 │
@@ -119,6 +119,7 @@ Streaker/
 ├── HELP.md
 ├── mvnw
 └── mvnw.cmd
+```
  ---
 ## Tech Stack
 Technology	                  Purpose

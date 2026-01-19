@@ -1,11 +1,31 @@
 # Streaker – Practice Tracking API
 
-Streaker is a Spring Boot–based RESTful API designed to help users track skill practice sessions, maintain consistency, and build long-term learning streaks.  
-The project follows a clean, layered architecture and uses modern Java libraries for maintainability and scalability.
+Skill Decay & Learning Consistency Tracker (Streaker)
+
+A backend-driven system built with Spring Boot to help users track their skills, maintain learning streaks, and prevent skill decay by monitoring practice consistency and identifying at-risk skills.
+
+This project focuses on clean architecture, scalability, and extensibility for future AI-driven features.
+
+---
+Project Overview
+
+The Streaker system allows users to:
+
+Register and manage multiple skills
+
+Log practice sessions for each skill
+
+Monitor consistency and inactivity
+
+Detect skills that are at risk of decay
+
+Receive insights about their learning behavior
+
+The system is designed to encourage continuous learning and prevent long gaps between practice sessions.
 
 ---
 
-## 🚀 Features
+##  Features
 
 - Log daily practice sessions for skills
 - Validate that practice is logged only for active skills
@@ -15,7 +35,7 @@ The project follows a clean, layered architecture and uses modern Java libraries
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - Java 17+
 - Spring Boot 3.x
@@ -27,85 +47,160 @@ The project follows a clean, layered architecture and uses modern Java libraries
 
 ---
 
-## 🏗️ Architecture Overview
+##  Architecture Overview
 
 The application follows a standard layered architecture:
 
-- **Controller** – Handles HTTP requests and responses
-- **Service** – Contains business logic and validations
-- **Mapper** – Converts Entities to DTOs and vice versa (MapStruct)
-- **Repository** – Database access using Spring Data JPA
-- **DTO** – Request and response models
-- **Entity** – JPA entities representing database tables
+ Controller → Service → Repository → Database
+                ↓
+              DTOs
+ Key Layers
+
+Controller Layer
+
+Handles REST APIs
+
+Uses ResponseEntity for clean responses
+
+Service Layer
+
+Contains core business logic
+
+Calculates decay & consistency
+
+Repository Layer
+
+JPA Repositories for DB access
+
+DTO Layer
+
+Clean data transfer between client and server
+
+Validation
+
+Ensures reliable & safe input handling
 
 ---
 ## 📁 Project Structure
-src/main/java/com/example/streaker
-├── controller
-├── service
-├── mapper
-├── repository
-├── dto
-└── entity
---
-# API Endpoints
-1. Log a Practice Session
+Streaker/
+│
+├── .idea/
+│
+├── Streaker/
+│   ├── .mvn/
+│   │
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── com.example.Streaker/
+│   │   │   │       ├── Config/
+│   │   │   │       ├── Controller/
+│   │   │   │       ├── DTO/
+│   │   │   │       ├── Entity/
+│   │   │   │       ├── ExceptionHandler/
+│   │   │   │       ├── GraphQL/
+│   │   │   │       ├── Mapper/
+│   │   │   │       ├── Repo/
+│   │   │       │   ├── Service/
+│   │   │       │   ├── util/
+│   │   │       │   └── StreakerApplication.java
+│   │   │
+│   │   └── resources/
+│   │       ├── graphql/
+│   │       │   └── schema.graphqls
+│   │       └── application.properties
+│   │
+│   └── test/
+│
+├── target/
+│
+├── .gitattributes
+├── .gitignore
+├── HELP.md
+├── mvnw
+└── mvnw.cmd
+ ---
+## Tech Stack
+Technology	                  Purpose
 
-POST /api/sessions
+Spring Boot	               Backend Framework
 
-Request Body
-{
-"skillId": 1,
-"practiceDate": "2024-05-20",
-"durationMinutes": 60,
-"effortLevel": 8,
-"notes": "Focused on advanced concepts."
-}
+Spring Data JPA     	   ORM & DB Access
 
-Rules
+Hibernate Validator	       Input Validation
 
-Skill must exist and be active
+PostgreSQL	               Database
 
-Only one session per skill per day is allowed
+Lombok	                   Boilerplate Reduction
 
-2. Get All Practice Sessions
+Maven	                   Build Tool
 
-GET /api/sessions
+GraphQL (Optional)	       Advanced Query Support
 
-Response
 
-Returns all logged practice sessions
-
-Data is returned in a flattened DTO format
 
 ---
-# Request Flow
+## Core Features
+🔹 Skill Management
 
-Client sends a JSON request
+Add, update, delete skills
 
-Controller validates the input
+Track each skill independently
 
-Service layer:
+🔹 Practice Session Tracking
 
-Verifies skill status
+Log practice dates and durations
 
-Checks for duplicate session entries
+Link sessions to skills
 
-Mapper converts DTO to Entity
+🔹 Learning Consistency
 
-Repository saves the entity
+Detect irregular practice
 
-Response DTO is returned to the client
+Identify inactive periods
+
+🔹 Skill Decay Detection
+
+Flags skills that haven’t been practiced recently
+
+Helps users avoid losing proficiency
+
+🔹 Clean API Responses
+
+Uses ResponseEntity
+
+Meaningful HTTP status codes
 
 ---
-# Design Principles
+## How Skill Decay is Handled
+Currently, the system:
 
-Separation of concerns
+Checks last practice date per skill
 
-DTO-first API design
+Marks skills as at risk after a configurable inactivity threshold
 
-No business logic in controllers
+Helps users focus on neglected skills
 
-Compile-time mapping for better performance
+This logic is handled in the service layer, making it easy to improve or replace later.
 
-Database-agnostic persistence layer
+---
+## Future Integration: Spring AI
+
+The project is designed to support AI-powered intelligence using Spring AI in future versions.
+
+Why Spring AI?
+
+Spring AI allows easy integration with:
+
+OpenAI
+
+Azure OpenAI
+
+HuggingFace
+
+Local LLMs (Ollama, LM Studio)
+
+Without tightly coupling AI logic into your core system.
+
+![API.png](Streaker/docs/images/API.png)
+![Get APi.png](Streaker/docs/images/Get%20APi.png)

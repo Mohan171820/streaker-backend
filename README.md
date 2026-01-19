@@ -205,3 +205,4 @@ Without tightly coupling AI logic into your core system.
 
 ![API.png](Streaker/docs/images/API.png)
 ![Get APi.png](Streaker/docs/images/Get%20APi.png)
+![Schemas.png](Streaker/docs/images/Schemas.png)

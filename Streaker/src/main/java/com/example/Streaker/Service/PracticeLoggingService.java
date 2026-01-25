@@ -10,6 +10,7 @@ import com.example.Streaker.Repo.PracticeSessionRepository;
 import com.example.Streaker.Repo.SkillRepository;
 import com.example.Streaker.Repo.UserRepository;
 import com.example.Streaker.util.SecurityUtil;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,36 +43,33 @@ public class PracticeLoggingService {
     }
 
     // Logs a new practice session for the currently logged-in user
+    @Transactional
     public void logPractice(PracticeLogRequest request) {
 
-        // Get the email of the currently logged-in user
         String email = SecurityUtil.getCurrentUserEmail();
 
-        // Fetch the user from the database using email
         User currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found in database"));
 
-        // Fetch the skill and ensure it belongs to the logged-in user and is active
         Skill skill = skillRepository
                 .findByIdAndUserAndActiveTrue(request.getSkillId(), currentUser)
                 .orElseThrow(() ->
                         new IllegalArgumentException("Skill not found or belongs to another user")
                 );
 
-        // Validate that practice duration is valid
         if (request.getDurationMinutes() <= 0) {
             throw new IllegalArgumentException("Duration must be greater than zero");
         }
 
-        // Convert request DTO to PracticeSession entity
         PracticeSession session = practiceMapper.toEntity(request);
-
-        // Link session with the correct skill and user
         session.setSkill(skill);
         session.setUser(currentUser);
 
-        // Save the practice session to the database
+        skill.setLastPracticedDate(request.getPracticeDate());
+
+        // Save both
         practiceSessionRepository.save(session);
+        skillRepository.save(skill);
     }
 
     // Retrieves all practice sessions for the currently logged-in user

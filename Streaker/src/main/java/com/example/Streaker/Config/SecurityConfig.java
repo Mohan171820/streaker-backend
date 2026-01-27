@@ -40,7 +40,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/login/**",
-                                "/graphiql/**",
+                                "/graphiql/**",   // All these are the endpoints
                                 "/graphql/**",
                                 "/_graphiql/**",
                                 "/vendor/**",

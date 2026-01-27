@@ -17,12 +17,13 @@ public class PracticeController {
 
     private final PracticeLoggingService practiceLoggingService;
 
+     // This mapping to log the progress and endpoint should be "https://localhost:8080/api/v1/practice/log"
     @PostMapping("/log")
     public ResponseEntity<String> logPractice(@Valid @RequestBody PracticeLogRequest request) {
         practiceLoggingService.logPractice(request);
         return ResponseEntity.ok("Practice logged successfully");
     }
-
+    // This mapping to get the logged practice sessions "https://localhost:8080/api/v1/practice/my"
     @GetMapping("/my")
     public List<PracticeResponseDTO> getMyPractices() {
         return practiceLoggingService.getAllSessions();

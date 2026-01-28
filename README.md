@@ -203,4 +203,4 @@ Without tightly coupling AI logic into your core system.
 ---
 ![Endpoints.png](Streaker/docs/images/Endpoints.png)
 ![endpoint.png](Streaker/docs/images/endpoint.png)
-![Endpoints.png](Streaker/docs/images/Endpoints.png)
+![Frontend.png](Streaker/docs/images/Frontend.png)

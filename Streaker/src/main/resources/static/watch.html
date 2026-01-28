@@ -165,6 +165,32 @@
 
         <input type="text" id="topic" placeholder="Topic (Arrays, DP, Graphs)">
     </div>
+    <!-- ================= PRACTICE SESSION LOG ================= -->
+    <h3>📒 Practice Session Log</h3>
+
+    <div class="input-group">
+        <input type="number" id="practiceSkillId" placeholder="Skill ID (from skills table)">
+        <input type="date" id="practiceDate">
+    </div>
+
+    <div class="input-group">
+        <input type="number" id="practiceDuration" placeholder="Duration (minutes)">
+        <select id="practiceEffort">
+            <option value="">Effort Level</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <input type="text" id="practiceNotes" placeholder="Notes (optional)">
+    </div>
+
+    <div class="input-group">
+        <button onclick="logPracticeSession()">Log Practice Session</button>
+    </div>
+
 
     <div class="input-group">
         <button onclick="startPractice()">Start Practice</button>
@@ -246,13 +272,11 @@
 
     function stopAndSend() {
         if (!interval) return;
-
         clearInterval(interval);
         interval = null;
 
         if (sessionSeconds > 0) {
             const data = player.getVideoData();
-
             fetch("/api/youtube/watch-time", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -266,10 +290,6 @@
             sessionSeconds = 0;
         }
     }
-
-    document.addEventListener("visibilitychange", () => {
-        if (document.hidden) stopAndSend();
-    });
 
     function loadHistory() {
         fetch("/api/youtube/history")
@@ -286,51 +306,39 @@
                 videos.forEach(v => {
                     list.innerHTML += `
                         <div class="history-card">
-                            <span>
-                                ${v.title}<br>
-                                ${(v.watchedSeconds / 60).toFixed(1)} mins
-                            </span>
-                            <button onclick="loadPlayer('${v.videoId}')">
-                                Watch
-                            </button>
+                            <span>${v.title}<br>${(v.watchedSeconds / 60).toFixed(1)} mins</span>
                         </div>
                     `;
                 });
             });
     }
-    let practiceTimer = null;
-let practiceSeconds = 0;
 
-function startPractice() {
-    if (practiceTimer) return;
+    // ✅ THIS WAS NOT RUNNING BEFORE
+    function logPracticeSession() {
+        const payload = {
+            skillId: Number(document.getElementById("practiceSkillId").value),
+            practiceDate: document.getElementById("practiceDate").value,
+            durationMinutes: Number(document.getElementById("practiceDuration").value),
+            effortLevel: document.getElementById("practiceEffort").value,
+            notes: document.getElementById("practiceNotes").value
+        };
 
-    practiceSeconds = 0;
-    updateTimerDisplay();
+        if (!payload.skillId || !payload.practiceDate || !payload.durationMinutes || !payload.effortLevel) {
+            alert("Skill ID, Date, Duration and Effort Level are required");
+            return;
+        }
 
-    practiceTimer = setInterval(() => {
-        practiceSeconds++;
-        updateTimerDisplay();
-    }, 1000);
-}
-
-function stopPractice() {
-    if (!practiceTimer) return;
-
-    clearInterval(practiceTimer);
-    practiceTimer = null;
-
-    alert(`Practice time: ${Math.floor(practiceSeconds / 60)} minutes`);
-
-    // later → send this to backend
-}
-
-function updateTimerDisplay() {
-    const minutes = String(Math.floor(practiceSeconds / 60)).padStart(2, "0");
-    const seconds = String(practiceSeconds % 60).padStart(2, "0");
-    document.getElementById("timerDisplay").innerText =
-        `⏱️ ${minutes}:${seconds}`;
-}
-
+        fetch("/api/v1/practice/log", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(res => {
+            if (!res.ok) throw new Error();
+            alert("✅ Practice session logged");
+        })
+        .catch(() => alert("❌ Failed to log practice"));
+    }
 
     window.onload = loadHistory;
 </script>

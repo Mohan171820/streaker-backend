@@ -28,11 +28,11 @@ public class YoutubeDailyWatch {
     @Column(name = "last_position_seconds")
     private int lastPositionSeconds;
 
-    // ✅ Required by JPA
+
     public YoutubeDailyWatch() {
     }
 
-    // ---------- Getters & Setters ----------
+    //  Getters & Setters
 
     public Long getId() {
         return id;
@@ -65,13 +65,10 @@ public class YoutubeDailyWatch {
     public void setWatchedSeconds(int watchedSeconds) {
         this.watchedSeconds = watchedSeconds;
     }
-
-    // ✅ THIS WAS MISSING
     public int getLastPositionSeconds() {
         return lastPositionSeconds;
     }
 
-    // ✅ THIS WAS EMPTY BEFORE
     public void setLastPositionSeconds(int lastPositionSeconds) {
         this.lastPositionSeconds = lastPositionSeconds;
     }

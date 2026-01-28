@@ -18,7 +18,8 @@ public class YoutubeWatchTimeController {
         this.watchTimeService = watchTimeService;
     }
 
-    // ---------- WATCH TIME ----------
+    //Records the watch time for a YouTube video.
+    // This endpoint is called periodically to track how long the user has watched a specific video.
     @PostMapping("/watch-time")
     public ResponseEntity<Void> addWatchTime(
             @RequestBody WatchTimeRequest request) {
@@ -32,7 +33,7 @@ public class YoutubeWatchTimeController {
         return ResponseEntity.ok().build();
     }
 
-    // ---------- HISTORY ----------
+    //By this mapping we can get the previous video the user had watched before
     @GetMapping("/history")
     public ResponseEntity<List<YoutubeHistoryResponse>> history() {
         return ResponseEntity.ok(watchTimeService.getHistory());

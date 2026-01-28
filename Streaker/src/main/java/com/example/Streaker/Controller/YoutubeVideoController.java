@@ -16,7 +16,8 @@ public class YoutubeVideoController {
         this.videoService = videoService;
     }
 
-    // ---------- SAVE VIDEO ----------
+    // Saves a YouTube video URL provided by the user.
+    //This video will be treated as the currently active learning video.
     @PostMapping("/video")
     public ResponseEntity<Void> addVideo(
             @RequestBody YoutubeVideoRequest request) {
@@ -25,7 +26,7 @@ public class YoutubeVideoController {
         return ResponseEntity.ok().build();
     }
 
-    // ---------- CURRENT VIDEO ----------
+    //  Retrieves the currently active YouTube video that the user is watching or tracking.
     @GetMapping("/current")
     public ResponseEntity<YoutubeVideoResponse> getCurrentVideo() {
         return ResponseEntity.ok(videoService.getCurrentVideo());

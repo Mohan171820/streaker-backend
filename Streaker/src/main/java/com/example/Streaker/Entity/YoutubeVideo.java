@@ -18,12 +18,12 @@ public class YoutubeVideo {
 
     private LocalDateTime createdAt;
 
-    // ✅ Default constructor (required by JPA)
+    //  Default constructor (required by JPA)
     public YoutubeVideo() {
         this.createdAt = LocalDateTime.now();
     }
 
-    // ✅ Getters and Setters
+    //  Getters and Setters
 
     public Long getId() {
         return id;

@@ -2,159 +2,222 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>YouTube Learning Tracker</title>
+    <title>Streaker</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        /* =====================
+       GLOBAL RESET
+    ===================== */
+    * {
+        box-sizing: border-box;
+    }
 
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: #f6f7f9;
-            margin: 0;
-            padding: 0;
-            color: #111827;
-        }
-        .container {
-            max-width: 780px;
-            margin: 60px auto;
-            background: #ffffff;
-            padding: 32px;
-            border-radius: 12px;
-            border: 1px solid #e5e7eb;
-        }
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #eef2ff, #f8fafc);
+        margin: 0;
+        padding: 0;
+        color: #0f172a;
+    }
 
-        h2 {
-            margin: 0;
-            text-align: center;
-            font-size: 22px;
-            font-weight: 600;
-        }
+    /* =====================
+       MAIN CONTAINER
+    ===================== */
+    .container {
+        max-width: 820px;
+        margin: 60px auto;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        padding: 36px;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+    }
 
-        h3 {
-            margin-top: 36px;
-            font-size: 16px;
-            font-weight: 600;
-        }
+    /* =====================
+       HEADINGS
+    ===================== */
+    h2 {
+        text-align: center;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
 
-        /* INPUT */
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 24px;
-        }
+    h3 {
+        margin-top: 42px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #334155;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
-        input {
-            flex: 1;
-            padding: 12px;
-            font-size: 14px;
-            border-radius: 8px;
-            border: 1px solid #d1d5db;
-        }
+    /* =====================
+       INPUT GROUPS
+    ===================== */
+    .input-group {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+    }
 
-        button {
-            padding: 12px 16px;
-            font-size: 14px;
-            background: #111827;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+    /* =====================
+       INPUTS & SELECTS
+    ===================== */
+    input,
+    select {
+        flex: 1;
+        height: 46px;
+        padding: 0 14px;
+        font-size: 14px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        transition: all 0.2s ease;
+    }
 
-        button:hover {
-            background: #000000;
-        }
+    input::placeholder {
+        color: #94a3b8;
+    }
 
-        .hint {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #6b7280;
-            text-align: center;
-        }
+    input:focus,
+    select:focus {
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
 
-        /* PLAYER */
-        .player-wrapper {
-            margin-top: 16px;
-            display: flex;
-            justify-content: center;
-        }
+    /* =====================
+       BUTTONS
+    ===================== */
+    button {
+        height: 46px;
+        padding: 0 20px;
+        font-size: 14px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #6366f1, #4f46e5);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        box-shadow: 0 10px 20px rgba(79, 70, 229, 0.25);
+    }
 
-        /* HISTORY */
-        .history-list {
-            margin-top: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 28px rgba(79, 70, 229, 0.35);
+    }
 
-        .history-card {
-            padding: 12px 14px;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-        }
+    /* =====================
+       HINT TEXT
+    ===================== */
+    .hint {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #64748b;
+        text-align: center;
+    }
 
-        .history-card span {
-            line-height: 1.4;
-        }
+    /* =====================
+       PRACTICE GRID
+    ===================== */
+    .practice-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin-top: 24px;
+    }
 
-        .history-card button {
-            background: #e5e7eb;
-            color: #111827;
-            padding: 6px 10px;
-            font-size: 12px;
-        }
+    .practice-grid-full {
+        grid-column: span 2;
+    }
 
-        .history-card button:hover {
-            background: #d1d5db;
-        }
+    /* =====================
+       TIMER
+    ===================== */
+    #timerDisplay {
+        margin-top: 14px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #4f46e5;
+    }
 
-        .empty {
-            font-size: 13px;
-            color: #6b7280;
-        }
+    /* =====================
+       HISTORY / CARDS
+    ===================== */
+    .history-list {
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
 
-        .footer {
-            margin-top: 40px;
-            font-size: 12px;
-            color: #9ca3af;
-            text-align: center;
-        }
-        select {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #d1d5db;
-}
-#timerDisplay {
-    margin-top: 10px;
-    font-size: 16px;
-    font-weight: 600;
-}
+    .history-card {
+        padding: 14px 16px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #f8fafc, #eef2ff);
+        border: 1px solid #e2e8f0;
+        font-size: 14px;
+        line-height: 1.5;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .history-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    /* =====================
+       PLAYER
+    ===================== */
+    .player-wrapper {
+        margin-top: 18px;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* =====================
+       EMPTY & FOOTER
+    ===================== */
+    .empty {
+        font-size: 13px;
+        color: #94a3b8;
+    }
+
+    .footer {
+        margin-top: 48px;
+        font-size: 12px;
+        color: #94a3b8;
+        text-align: center;
+    }
+
 
     </style>
 </head>
-
 <body>
 
 <div class="container">
-    <h2>YouTube Learning Tracker</h2>
+    <h2>Streaker</h2>
 
-    <!-- INPUT -->
+    <!-- USER PROGRESS DASHBOARD -->
+    <h3>📊 Your Learning Progress</h3>
+    <div class="history-list" id="progressDashboard">
+        <p class="empty">Loading progress...</p>
+    </div>
+
+    <!-- YOUTUBE INPUT -->
     <div class="input-group">
         <input type="text" id="ytUrl" placeholder="Paste YouTube video URL">
         <button id="startBtn">Start</button>
     </div>
 
-    <div class="hint">
-        Watch videos only inside this page to track time
-    </div>
-    <h3>🧠 Practice Timer</h3>
+    <div class="hint">Watch videos only inside this page to track time</div>
 
+    <!-- PRACTICE TIMER -->
+    <h3>🧠 Practice Timer</h3>
     <div class="input-group">
         <select id="platform">
             <option value="LEETCODE">LeetCode</option>
@@ -162,51 +225,63 @@
             <option value="PROJECT">Project</option>
             <option value="READING">Reading</option>
         </select>
-
         <input type="text" id="topic" placeholder="Topic (Arrays, DP, Graphs)">
     </div>
-    <!-- ================= PRACTICE SESSION LOG ================= -->
+
+    <p id="timerDisplay">⏱️ 00:00</p>
+
+    <!-- PRACTICE LOG -->
     <h3>📒 Practice Session Log</h3>
 
-    <div class="input-group">
-        <input type="number" id="practiceSkillId" placeholder="Skill ID (from skills table)">
-        <input type="date" id="practiceDate">
-    </div>
+    <div class="practice-grid">
+        <!-- Skill autocomplete (NO DROPDOWN BUG) -->
+        <input
+                type="text"
+                id="practiceSkillName"
+                list="skillsList"
+                placeholder="Start typing skill (Java, Spring Boot...)"
+        >
+        <datalist id="skillsList"></datalist>
 
-    <div class="input-group">
+        <input type="date" id="practiceDate">
+
         <input type="number" id="practiceDuration" placeholder="Duration (minutes)">
+
         <select id="practiceEffort">
             <option value="">Effort Level</option>
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
             <option value="High">High</option>
         </select>
+
+        <input
+                type="text"
+                id="practiceNotes"
+                placeholder="Notes (optional)"
+                class="practice-grid-full"
+        >
+
+        <button
+                onclick="logPracticeSession()"
+                class="practice-grid-full"
+        >
+            Log Practice Session
+        </button>
     </div>
 
-    <div class="input-group">
-        <input type="text" id="practiceNotes" placeholder="Notes (optional)">
+    <!-- PRACTICE HISTORY -->
+    <h3>📊 Practice History</h3>
+    <div id="practiceHistory" class="history-list">
+        <p class="empty">No practice sessions yet</p>
     </div>
 
-    <div class="input-group">
-        <button onclick="logPracticeSession()">Log Practice Session</button>
-    </div>
-
-
-    <div class="input-group">
-        <button onclick="startPractice()">Start Practice</button>
-        <button onclick="stopPractice()">Stop Practice</button>
-    </div>
-
-    <p id="timerDisplay">⏱️ 00:00</p>
-
-
-    <!-- PLAYER -->
+    <!-- YOUTUBE PLAYER -->
     <h3>Currently Watching</h3>
     <div class="player-wrapper">
         <div id="player"></div>
     </div>
 
-    <!-- HISTORY -->
+    <!-- YOUTUBE HISTORY -->
     <h3>Previously Watched</h3>
     <div id="historyList" class="history-list">
         <p class="empty">No videos watched yet</p>
@@ -217,20 +292,38 @@
     </div>
 </div>
 
+</body>
+
+
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-    const startBtn = document.getElementById("startBtn");
-    const ytUrlInput = document.getElementById("ytUrl");
+    function loadUserProgress() {
+    fetch("/api/v1/progress/me")
+        .then(res => res.json())
+        .then(p => {
+            document.getElementById("progressDashboard").innerHTML = `
+                <div class="history-card">📚 Total Skills: <strong>${p.totalSkills}</strong></div>
+                <div class="history-card">✅ Active Skills: <strong>${p.activeSkills}</strong></div>
+                <div class="history-card">⚠️ At-Risk Skills: <strong>${p.atRiskSkills}</strong></div>
+                <div class="history-card">⏱️ Total Practice: <strong>${p.totalPracticeMinutes} mins</strong></div>
+                <div class="history-card">🗓️ Last Practice: <strong>${p.lastPracticeDate ?? "N/A"}</strong></div>
+            `;
+        })
+        .catch(() => {
+            document.getElementById("progressDashboard").innerHTML =
+                `<p class="empty">Failed to load progress</p>`;
+        });
+}
 
-    let player;
-    let interval = null;
-    let sessionSeconds = 0;
+    let player, interval = null, sessionSeconds = 0;
 
-    startBtn.onclick = startLearning;
+    document.getElementById("startBtn").onclick = startLearning;
+
+    /* -------------------- YOUTUBE -------------------- */
 
     function startLearning() {
-        const url = ytUrlInput.value.trim();
+        const url = ytUrl.value.trim();
         if (!url) return alert("Paste YouTube URL");
 
         fetch("/api/youtube/video", {
@@ -244,10 +337,7 @@
     }
 
     function loadPlayer(videoId) {
-        if (player) {
-            player.loadVideoById(videoId);
-            return;
-        }
+        if (player) return player.loadVideoById(videoId);
 
         player = new YT.Player("player", {
             height: "360",
@@ -259,88 +349,115 @@
 
     function onStateChange(event) {
         if (event.data === YT.PlayerState.PLAYING) {
-            startTracking();
+            interval = setInterval(() => sessionSeconds++, 1000);
         } else {
-            stopAndSend();
+            sendWatchTime();
         }
     }
 
-    function startTracking() {
-        if (interval) return;
-        interval = setInterval(() => sessionSeconds++, 1000);
-    }
-
-    function stopAndSend() {
+    function sendWatchTime() {
         if (!interval) return;
         clearInterval(interval);
         interval = null;
 
         if (sessionSeconds > 0) {
-            const data = player.getVideoData();
+            const v = player.getVideoData();
             fetch("/api/youtube/watch-time", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    videoId: data.video_id,
-                    title: data.title,
+                    videoId: v.video_id,
+                    title: v.title,
                     watchedSeconds: sessionSeconds
                 })
-            }).then(loadHistory);
+            }).then(loadYoutubeHistory);
 
             sessionSeconds = 0;
         }
     }
 
-    function loadHistory() {
+    function loadYoutubeHistory() {
         fetch("/api/youtube/history")
             .then(res => res.json())
-            .then(videos => {
-                const list = document.getElementById("historyList");
-                list.innerHTML = "";
-
-                if (!videos.length) {
-                    list.innerHTML = `<p class="empty">No videos watched yet</p>`;
-                    return;
-                }
-
-                videos.forEach(v => {
-                    list.innerHTML += `
+            .then(data => {
+                historyList.innerHTML = data.length
+                    ? data.map(v => `
                         <div class="history-card">
-                            <span>${v.title}<br>${(v.watchedSeconds / 60).toFixed(1)} mins</span>
+                            ${v.title}<br>${(v.watchedSeconds / 60).toFixed(1)} mins
                         </div>
-                    `;
-                });
+                    `).join("")
+                    : `<p class="empty">No videos watched yet</p>`;
             });
     }
 
+    /* -------------------- PRACTICE -------------------- */
+function logPracticeSession() {
+    const skillName = practiceSkillName.value.trim();
+    const skillId = getSkillIdByName(skillName);
 
-    function logPracticeSession() {
-        const payload = {
-            skillId: Number(document.getElementById("practiceSkillId").value),
-            practiceDate: document.getElementById("practiceDate").value,
-            durationMinutes: Number(document.getElementById("practiceDuration").value),
-            effortLevel: document.getElementById("practiceEffort").value,
-            notes: document.getElementById("practiceNotes").value
-        };
-
-        if (!payload.skillId || !payload.practiceDate || !payload.durationMinutes || !payload.effortLevel) {
-            alert("Skill ID, Date, Duration and Effort Level are required");
-            return;
-        }
-
-        fetch("/api/v1/practice/log", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        })
-        .then(res => {
-            if (!res.ok) throw new Error();
-            alert("✅ Practice session logged");
-        })
-        .catch(() => alert("❌ Failed to log practice"));
+    if (!skillId || !practiceDate.value ||
+        !practiceDuration.value || !practiceEffort.value) {
+        alert("Please select a valid skill and fill all fields");
+        return;
     }
 
-    window.onload = loadHistory;
+    const payload = {
+        skillId: skillId,
+        practiceDate: practiceDate.value,
+        durationMinutes: Number(practiceDuration.value),
+        effortLevel: practiceEffort.value,
+        notes: practiceNotes.value
+    };
+
+    fetch("/api/v1/practice/log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    })
+    .then(res => {
+        if (!res.ok) throw new Error();
+        loadPracticeHistory();
+        alert("✅ Practice logged");
+    })
+    .catch(() => alert("❌ Failed"));
+}
+
+
+
+    function loadPracticeHistory() {
+        fetch("/api/v1/practice/my")
+            .then(res => res.json())
+            .then(data => {
+                practiceHistory.innerHTML = data.length
+                    ? data.map(p => `
+                        <div class="history-card">
+                            <strong>${p.skillName}</strong><br>
+                            ${p.practiceDate}<br>
+                            ${p.durationMinutes} mins • ${p.effortLevel}
+                        </div>
+                    `).join("")
+                    : `<p class="empty">No practice sessions yet</p>`;
+            });
+    }
+
+    function loadSkills() {
+        fetch("/api/v1/skills?userId=1")
+
+            .then(res => res.json())
+            .then(data => {
+                practiceSkillId.innerHTML = `<option value="">Select Skill</option>`;
+                data.forEach(s =>
+                    practiceSkillId.innerHTML += `<option value="${s.id}">${s.name}</option>`
+                );
+            });
+    }
+    window.onload = () => {
+    loadSkills();
+    loadPracticeHistory();
+    loadYoutubeHistory();
+    loadUserProgress();
+};
+
 </script>
 
 </body>

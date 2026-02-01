@@ -1,12 +1,15 @@
 package com.example.Streaker.Controller;
 
 import com.example.Streaker.DTO.SkillCreateRequest;
+import com.example.Streaker.DTO.SkillResponseDTO;
 import com.example.Streaker.Service.SkillService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/skills")
@@ -25,4 +28,14 @@ public class SkillController {
                 .status(HttpStatus.CREATED)
                 .body("Skill added successfully");
     }
+
+    @GetMapping
+    public ResponseEntity<List<SkillResponseDTO>> getMySkills(
+            @RequestParam Long userId
+    ) {
+        return ResponseEntity.ok(
+                skillService.getSkillsForUser(userId)
+        );
+    }
+
 }

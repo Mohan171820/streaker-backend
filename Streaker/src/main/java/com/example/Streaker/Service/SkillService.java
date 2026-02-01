@@ -1,6 +1,7 @@
 package com.example.Streaker.Service;
 
 import com.example.Streaker.DTO.SkillCreateRequest;
+import com.example.Streaker.DTO.SkillResponseDTO;
 import com.example.Streaker.Entity.Skill;
 import com.example.Streaker.Entity.User;
 import com.example.Streaker.Repo.SkillRepository;
@@ -8,6 +9,8 @@ import com.example.Streaker.Repo.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,4 +51,18 @@ public class SkillService {
         skillRepository.save(skill);
 
     }
+    public List<SkillResponseDTO> getSkillsForUser(Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return skillRepository.findByUserAndActiveTrue(user)
+                .stream()
+                .map(skill -> new SkillResponseDTO(
+                        skill.getId(),
+                        skill.getName()
+                ))
+                .toList();
+    }
+
 }
